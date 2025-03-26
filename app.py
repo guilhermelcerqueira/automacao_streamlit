@@ -143,5 +143,5 @@ elif menu == "Consulta de NF":
     num_linhas = len(df)
     altura = min(num_linhas * 30, 600)  # Cada linha com altura de 30px, ajustável. Limite em 600px.
 
-    st.dataframe(df_filtrado, height=altura, use_container_width=True)
+    st.dataframe(df_filtrado,  use_container_width=True)
     
