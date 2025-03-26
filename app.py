@@ -94,8 +94,7 @@ if menu == "Cadastro de NF":
     st.header("Cadastro de Notas Fiscais")
     
     import locale
-    # Definir a localidade para formatação de moeda
-    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')  # Para sistemas Windows, talvez 'pt_BR.utf8' seja necessário
+   
 
 
     df = load_data()
@@ -119,8 +118,8 @@ if menu == "Cadastro de NF":
     # Adicionando uma opção para o usuário adicionar um novo fornecedor
     fornecedor_opcao = st.selectbox(
         "Fornecedor", 
-        options=["Novo fornecedor..."] + fornecedores_existentes,  # A última opção será para novo fornecedor
-        index=fornecedores_existentes.index(st.session_state.txt_fornecedor) if st.session_state.txt_fornecedor in fornecedores_existentes else len(fornecedores_existentes)
+        options=["Novo fornecedor..."] + fornecedores_existentes,  # A PRIMEIRA opção será para novo fornecedor
+        index=1
     )
 
     # Caso o usuário queira adicionar um novo fornecedor
@@ -132,12 +131,9 @@ if menu == "Cadastro de NF":
     # Campos de entrada para o cadastro
     txt_numero_nf = st.text_input("Número da NF", value=st.session_state.txt_numero_nf)
     date_data = st.date_input("Data da NF", value=st.session_state.date_data, format="DD/MM/YYYY")
-    # Formatar o valor como R$
-    txt_valor = st.number_input("Valor (R$)", min_value=0.0, format="%.2f", value=st.session_state.txt_valor)
+    txt_valor = st.number_input("Valor (R$)", value = st.session_state.txt_valor)
 
-    # Exibir o valor em formato R$
-    txt_valor_formatado = locale.currency(txt_valor, grouping=True)  # Formata como moeda brasileira (R$)
-    st.markdown(f"**Valor selecionado**: {txt_valor_formatado}")
+    
     
     txt_descricao = st.text_area("Descrição", value=st.session_state.txt_descricao)
 
