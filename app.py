@@ -5,9 +5,13 @@ import os
 FILE_PATH = "nf_registro.xlsx"
 
 # Função para carregar os dados existentes ou criar uma nova planilha
+# Função para carregar os dados existentes ou criar uma nova planilha
 def load_data():
     if os.path.exists(FILE_PATH):
-        return pd.read_excel(FILE_PATH)
+        df = pd.read_excel(FILE_PATH)
+        # Garantir que a coluna "Valor" seja do tipo float
+        df["Valor"] = df["Valor"].astype(float)
+        return df
     return pd.DataFrame(columns=["Número NF", "Data", "Valor", "Fornecedor", "Descrição"])
 
 # Função para salvar os dados no Excel
@@ -45,11 +49,45 @@ st.markdown('<div class="centralizado">Escolha a opção</div>', unsafe_allow_ht
 # Criando as abas de navegação com ícones e layout horizontal
 menu = st.radio(
     "",
-    ("Cadastro de NF", "Consulta de NF"),
-    index=0,  # Deixa "Cadastro de NF" como opção inicial
-    format_func=lambda x: f"📝 {x}" if x == "Cadastro de NF" else f"🔍 {x}",
+    ("Cadastro de NF","Editar NF", "Consulta de NF"),  # Adiciona "Editar NF"
+    index=0,
+    format_func=lambda x: f"📝 {x}" if x == "Cadastro de NF" else f"🔍 {x}" if x == "Consulta de NF" else f"✏️ {x}",
     horizontal=True
 )
+
+# Se o usuário escolher "Editar NF"
+if menu == "Editar NF":
+    st.header("Editar Notas Fiscais")
+
+    # Carregar os dados
+    df = load_data()
+
+    # Campo de busca para escolher a NF que deseja editar
+    nf_selecionada = st.selectbox(
+        "Qual NF você quer editar?",
+        options=["Selecione..."] + list(df["Número NF"].unique())  # Adiciona a opção de selecionar uma NF
+    )
+
+    if nf_selecionada != "Selecione...":
+        # Filtrar a NF selecionada
+        nf_data = df[df["Número NF"] == nf_selecionada].iloc[0]
+
+        # Exibir os campos de cadastro com os dados atuais da NF
+        txt_numero_nf = st.text_input("Número da NF", value=nf_data["Número NF"], disabled=True)
+        date_data = st.date_input("Data da NF", value=pd.to_datetime(nf_data["Data"]))
+        txt_valor = st.number_input("Valor", min_value=0.0, format="%.2f", value=nf_data["Valor"])
+        txt_fornecedor = st.text_input("Fornecedor", value=nf_data["Fornecedor"])
+        txt_descricao = st.text_area("Descrição", value=nf_data["Descrição"])
+
+        # Botão de salvar
+        if st.button("Salvar Alterações"):
+            # Atualiza os dados da NF selecionada
+            df.loc[df["Número NF"] == nf_selecionada, ["Data", "Valor", "Fornecedor", "Descrição"]] = [date_data, txt_valor, txt_fornecedor, txt_descricao]
+
+            # Salvar as alterações no arquivo Excel
+            save_data(df)
+
+            st.success("Nota Fiscal editada com sucesso!")
 
 # Se o usuário escolher "Cadastro de NF"
 if menu == "Cadastro de NF":
@@ -115,15 +153,29 @@ elif menu == "Consulta de NF":
     df = load_data()
 
     # Filtros
-    fornecedor_filtrar = st.sidebar.multiselect(
-        "Fornecedor",
-        options=["Todos"] + list(df["Fornecedor"].unique()),  # Adiciona "Todos" como primeira opção
-        default=["Todos"]  # O valor padrão é "Todos"
+    nota_filtrar = st.sidebar.multiselect(
+        "Número NF",
+        options=list(df["Número NF"].unique()),  # Remove a opção "Todos"
+        default=[]  # Filtro vazio por padrão, ou seja, nada selecionado inicialmente
     )
 
-    # Se "Todos" for selecionado, incluir todos os fornecedores
-    if "Todos" in fornecedor_filtrar:
+    # Filtros
+    fornecedor_filtrar = st.sidebar.multiselect(
+        "Fornecedor",
+        options=list(df["Fornecedor"].unique()),  # Remove a opção "Todos"
+        default=[]  # Filtro vazio por padrão, ou seja, nada selecionado inicialmente
+    )
+
+
+    # Se nenhum fornecedor for selecionado, incluir todos os fornecedores
+    if not fornecedor_filtrar:
         fornecedor_filtrar = df["Fornecedor"].unique()
+
+    # Se nenhum número de NF for selecionado, incluir todos os números de NF
+    if not nota_filtrar:
+        nota_filtrar = df["Número NF"].unique()
+
+
 
     data_inicio = st.sidebar.date_input("Data Início", df["Data"].min(), format="DD/MM/YYYY")
     data_fim = st.sidebar.date_input("Data Fim", df["Data"].max(), format="DD/MM/YYYY")
@@ -132,7 +184,8 @@ elif menu == "Consulta de NF":
     df_filtrado = df[
         (df["Fornecedor"].isin(fornecedor_filtrar)) &
         (df["Data"] >= pd.to_datetime(data_inicio)) &
-        (df["Data"] <= pd.to_datetime(data_fim))
+        (df["Data"] <= pd.to_datetime(data_fim)) &
+        (df["Número NF"].isin(nota_filtrar))
     ]
 
 
@@ -143,5 +196,5 @@ elif menu == "Consulta de NF":
     num_linhas = len(df)
     altura = min(num_linhas * 30, 600)  # Cada linha com altura de 30px, ajustável. Limite em 600px.
 
-    st.dataframe(df_filtrado,  use_container_width=True)
+    st.dataframe(df_filtrado, height=altura, use_container_width=True)
     
