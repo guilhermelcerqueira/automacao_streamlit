@@ -206,7 +206,26 @@ if menu == "Cadastro de NF":
             "Fornecedor", 
             options=["Novo fornecedor..."],  # Só a opção para novo fornecedor
             index=0  # Começa com a única opção disponível
-    )
+        )
+
+    # Condicional: Se a opção "Novo fornecedor..." for escolhida, exibe o campo para inserir um novo fornecedor
+    if fornecedor_opcao == "Novo fornecedor...":
+        novo_fornecedor = st.text_input("Digite o nome do novo fornecedor")
+        if novo_fornecedor:
+            st.session_state.novo_fornecedor = novo_fornecedor
+            # Exibe a mensagem apenas quando o novo fornecedor for digitado
+            st.write(f"Novo fornecedor adicionado: {novo_fornecedor}")
+        else:
+            st.session_state.novo_fornecedor = ""  # Caso o campo fique vazio
+            st.write("")  # Nenhuma mensagem exibida
+    else:
+        # Caso um fornecedor existente seja selecionado
+        novo_fornecedor = fornecedor_opcao
+        st.session_state.novo_fornecedor = ""  # Não há "novo fornecedor", já foi selecionado
+        # Exibe a mensagem apenas se o fornecedor for selecionado (não mais a "Novo fornecedor" texto)
+        st.write(f"Fornecedor selecionado: {novo_fornecedor}")
+
+
 
     # Campos de entrada para o cadastro
     txt_numero_nf = st.text_input("Número da NF", value=st.session_state.txt_numero_nf)
