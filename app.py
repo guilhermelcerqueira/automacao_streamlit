@@ -226,7 +226,8 @@ if menu == "Cadastro de NF":
         st.write(f"Fornecedor selecionado: {novo_fornecedor}")
 
 
-
+    # Exibir o fornecedor selecionado, bloqueado para edição
+    st.selectbox("Fornecedor", options=[novo_fornecedor], disabled=True)
     # Campos de entrada para o cadastro
     txt_numero_nf = st.text_input("Número da NF", value=st.session_state.txt_numero_nf)
     date_data = st.date_input("Data da NF", value=st.session_state.date_data, format="DD/MM/YYYY")
@@ -235,7 +236,7 @@ if menu == "Cadastro de NF":
     # Adicionando os novos campos de entrada
     txt_projeto = st.text_input("Projeto", value=st.session_state.txt_projeto)
     txt_tipo = st.text_input("Tipo", value=st.session_state.txt_tipo)
-    txt_fornecedor = st.text_input("Fornecedor")  # Exemplo de campo de entrada para fornecedor
+    
     txt_produto = st.text_input("Produto", value=st.session_state.txt_produto)
     txt_desc_item = st.text_input("Descrição do item", value=st.session_state.txt_desc_item)
     txt_mes_contratado = st.text_input("Mês contratado", value=st.session_state.txt_mes_contratado)
@@ -247,9 +248,10 @@ if menu == "Cadastro de NF":
     txt_mes_planilha_financeiro = st.text_input("Mês Planilha Financeiro", value=st.session_state.txt_mes_planilha_financeiro)
     txt_observacoes = st.text_area("Observações", value=st.session_state.txt_observacoes)
 
+    
  # Botão de salvar
     if st.button("Salvar"):
-        if txt_numero_nf and txt_fornecedor:
+        if txt_numero_nf and novo_fornecedor:
             df = load_data()
 
             # Verificar se NF já existe
@@ -260,7 +262,7 @@ if menu == "Cadastro de NF":
                     "Número NF": [txt_numero_nf],
                     "Data": [date_data],
                     "Valor": [txt_valor],
-                    "Fornecedor": [txt_fornecedor],
+                    "Fornecedor": [novo_fornecedor],
                     "Descrição": [st.session_state.txt_descricao],
                     "Projeto": [txt_projeto],
                     "Tipo": [txt_tipo],
@@ -284,7 +286,7 @@ if menu == "Cadastro de NF":
                 st.session_state.txt_numero_nf = ""
                 st.session_state.date_data = None
                 st.session_state.txt_valor = 0.0
-                st.session_state.txt_fornecedor = ""
+                st.session_state.novo_fornecedor = ""
                 st.session_state.txt_descricao = ""
                 st.session_state.txt_projeto = ""
                 st.session_state.txt_tipo = ""
@@ -300,7 +302,7 @@ if menu == "Cadastro de NF":
                 st.session_state.txt_observacoes = ""
 
         else:
-            st.error("Preencha os campos obrigatórios: Número NF e Fornecedor.")
+            st.error("Preencha os campos obrigatórios: Número NF, Fornecedor e Data da NF.")
 # Se o usuário escolher "Consulta de NF"
 elif menu == "Consulta de NF":
     st.header("Consulta de Notas Fiscais")
