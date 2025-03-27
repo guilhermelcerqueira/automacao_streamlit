@@ -4,22 +4,46 @@ import os
 
 FILE_PATH = "nf_registro.xlsx"
 
-# Função para carregar os dados existentes ou criar uma nova planilha
-# Função para carregar os dados existentes ou criar uma nova planilha
-def load_data():
-    if os.path.exists(FILE_PATH):
-        df = pd.read_excel(FILE_PATH)
-        # Garantir que a coluna "Valor" seja do tipo float
-        df["Valor"] = df["Valor"].astype(float)
-        return df
-    return pd.DataFrame(columns=["Número NF", "Data", "Valor", "Fornecedor", "Descrição"])
-
 # Função para salvar os dados no Excel
 def save_data(df):
     df.to_excel(FILE_PATH, index=False)
 
+# Função para carregar os dados existentes ou criar uma nova planilha
+def load_data():
+    if os.path.exists(FILE_PATH):
+        df = pd.read_excel(FILE_PATH)
+        # Garantir que as colunas numéricas sejam do tipo correto
+        df["Valor"] = df["Valor"].astype(float)
+        # Verifica se todas as colunas necessárias estão presentes, caso contrário, cria-las
+        required_columns = [
+            "Número NF", "Data", "Valor", "Fornecedor", "Descrição",
+            "Projeto", "Tipo", "Produto", "Descrição do item", "Mês contratado", 
+            "RC, Contrato ou Direto", "NF", "Data de faturamento NF", 
+            "Data Recebimento NF", "Data de lançamento NF", "Validação Financeiro",
+            "Mês Planilha Financeiro", "Observações"
+        ]
+        for col in required_columns:
+            if col not in df.columns:
+                df[col] = None  # Adiciona as colunas ausentes
+        return df
+    else:
+        # Se o arquivo não existir, cria um novo DataFrame com as colunas necessárias
+        df = pd.DataFrame(columns=required_columns)
+        # Salvar a nova planilha vazia no disco
+        save_data(df)
+        return df
+
 # Título da aplicação
-st.title("Cadastro e Consulta de Notas Fiscais")
+st.markdown("""
+    <style>
+        .titulo-customizado {
+            font-size: 27px;  # Ajuste o tamanho conforme necessário
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+    <div class="titulo-customizado">Cadastro e Consulta de Notas Fiscais</div>
+""", unsafe_allow_html=True)
 
 # Usar CSS para centralizar "Escolha a opção" na página
 st.markdown("""
@@ -79,15 +103,44 @@ if menu == "Editar NF":
         txt_fornecedor = st.text_input("Fornecedor", value=nf_data["Fornecedor"])
         txt_descricao = st.text_area("Descrição", value=nf_data["Descrição"])
 
+        # Adicionando os novos campos de entrada com os dados atuais da NF
+        txt_projeto = st.text_input("Projeto", value=nf_data["Projeto"])
+        txt_tipo = st.text_input("Tipo", value=nf_data["Tipo"])
+        txt_produto = st.text_input("Produto", value=nf_data["Produto"])
+        txt_desc_item = st.text_input("Descrição do item", value=nf_data["Descrição do item"])
+        txt_mes_contratado = st.text_input("Mês contratado", value=nf_data["Mês contratado"])
+        txt_rc_contrato = st.text_input("RC, Contrato ou Direto", value=nf_data["RC, Contrato ou Direto"])
+        date_faturamento_nf = st.date_input("Data de faturamento NF", value=pd.to_datetime(nf_data["Data de faturamento NF"]))
+        date_recebimento_nf = st.date_input("Data Recebimento NF", value=pd.to_datetime(nf_data["Data Recebimento NF"]))
+        date_lancamento_nf = st.date_input("Data de lançamento NF", value=pd.to_datetime(nf_data["Data de lançamento NF"]))
+        txt_validacao_financeiro = st.text_input("Validação Financeiro", value=nf_data["Validação Financeiro"])
+        txt_mes_planilha_financeiro = st.text_input("Mês Planilha Financeiro", value=nf_data["Mês Planilha Financeiro"])
+        txt_observacoes = st.text_area("Observações", value=nf_data["Observações"])
+
+        # Botão de salvar
         # Botão de salvar
         if st.button("Salvar Alterações"):
             # Atualiza os dados da NF selecionada
-            df.loc[df["Número NF"] == nf_selecionada, ["Data", "Valor", "Fornecedor", "Descrição"]] = [date_data, txt_valor, txt_fornecedor, txt_descricao]
+            df.loc[df["Número NF"] == nf_selecionada, [
+                "Data", "Valor", "Fornecedor", "Descrição", "Projeto", "Tipo", "Produto", 
+                "Descrição do item", "Mês contratado", "RC, Contrato ou Direto", 
+                "Data de faturamento NF", "Data Recebimento NF", "Data de lançamento NF", 
+                "Validação Financeiro", "Mês Planilha Financeiro", "Observações"
+            ]] = [
+                date_data, txt_valor, txt_fornecedor, txt_descricao, txt_projeto, txt_tipo, 
+                txt_produto, txt_desc_item, txt_mes_contratado, txt_rc_contrato, date_faturamento_nf, 
+                date_recebimento_nf, date_lancamento_nf, txt_validacao_financeiro, 
+                txt_mes_planilha_financeiro, txt_observacoes
+            ]
 
             # Salvar as alterações no arquivo Excel
             save_data(df)
 
             st.success("Nota Fiscal editada com sucesso!")
+             # Limpar campos e voltar para a tela inicial
+            nf_selecionada = "Selecione..."  # Resetando o selectbox manualmente
+            
+            
 
 # Se o usuário escolher "Cadastro de NF"
 if menu == "Cadastro de NF":
@@ -110,36 +163,72 @@ if menu == "Cadastro de NF":
         st.session_state.txt_fornecedor = ""
     if "txt_descricao" not in st.session_state:
         st.session_state.txt_descricao = ""
+    if "txt_projeto" not in st.session_state:
+        st.session_state.txt_projeto = ""
+    if "txt_tipo" not in st.session_state:
+        st.session_state.txt_tipo = ""
+    if "txt_produto" not in st.session_state:
+        st.session_state.txt_produto = ""
+    if "txt_desc_item" not in st.session_state:
+        st.session_state.txt_desc_item = ""
+    if "txt_mes_contratado" not in st.session_state:
+        st.session_state.txt_mes_contratado = ""
+    if "txt_rc_contrato" not in st.session_state:
+        st.session_state.txt_rc_contrato = ""
+    if "date_faturamento_nf" not in st.session_state:
+        st.session_state.date_faturamento_nf = None
+    if "date_recebimento_nf" not in st.session_state:
+        st.session_state.date_recebimento_nf = None
+    if "date_lancamento_nf" not in st.session_state:
+        st.session_state.date_lancamento_nf = None
+    if "txt_validacao_financeiro" not in st.session_state:
+        st.session_state.txt_validacao_financeiro = ""
+    if "txt_mes_planilha_financeiro" not in st.session_state:
+        st.session_state.txt_mes_planilha_financeiro = ""
+    if "txt_observacoes" not in st.session_state:
+        st.session_state.txt_observacoes = ""
 
 
-        # Lista de fornecedores já cadastrados no DataFrame
+    # Lista de fornecedores já cadastrados no DataFrame
     fornecedores_existentes = df["Fornecedor"].unique().tolist()
 
-    # Adicionando uma opção para o usuário adicionar um novo fornecedor
-    fornecedor_opcao = st.selectbox(
-        "Fornecedor", 
-        options=["Novo fornecedor..."] + fornecedores_existentes,  # A PRIMEIRA opção será para novo fornecedor
-        index=1
-    )
-
-    # Caso o usuário queira adicionar um novo fornecedor
-    if fornecedor_opcao == "Novo fornecedor...":
-        txt_fornecedor = st.text_input("Digite o nome do novo fornecedor")
+    # Verifique se há fornecedores existentes
+    if len(fornecedores_existentes) > 0:
+        # Se houver fornecedores, coloque a opção "Novo fornecedor..." como primeira opção
+        fornecedor_opcao = st.selectbox(
+            "Fornecedor", 
+            options=["Novo fornecedor..."] + fornecedores_existentes,  # A PRIMEIRA opção será para novo fornecedor
+            index=0  # Começa com "Novo fornecedor..."
+        )
     else:
-        txt_fornecedor = fornecedor_opcao
+        # Se não houver fornecedores cadastrados, só permita a opção de novo fornecedor
+        fornecedor_opcao = st.selectbox(
+            "Fornecedor", 
+            options=["Novo fornecedor..."],  # Só a opção para novo fornecedor
+            index=0  # Começa com a única opção disponível
+    )
 
     # Campos de entrada para o cadastro
     txt_numero_nf = st.text_input("Número da NF", value=st.session_state.txt_numero_nf)
     date_data = st.date_input("Data da NF", value=st.session_state.date_data, format="DD/MM/YYYY")
-    txt_valor = st.number_input("Valor (R$)", value = st.session_state.txt_valor)
+    txt_valor = st.number_input("Valor (R$)", value=st.session_state.txt_valor)
 
-    
-    
-    txt_descricao = st.text_area("Descrição", value=st.session_state.txt_descricao)
+    # Adicionando os novos campos de entrada
+    txt_projeto = st.text_input("Projeto", value=st.session_state.txt_projeto)
+    txt_tipo = st.text_input("Tipo", value=st.session_state.txt_tipo)
+    txt_fornecedor = st.text_input("Fornecedor")  # Exemplo de campo de entrada para fornecedor
+    txt_produto = st.text_input("Produto", value=st.session_state.txt_produto)
+    txt_desc_item = st.text_input("Descrição do item", value=st.session_state.txt_desc_item)
+    txt_mes_contratado = st.text_input("Mês contratado", value=st.session_state.txt_mes_contratado)
+    txt_rc_contrato = st.text_input("RC, Contrato ou Direto", value=st.session_state.txt_rc_contrato)
+    date_faturamento_nf = st.date_input("Data de faturamento NF", value=st.session_state.date_faturamento_nf, format="DD/MM/YYYY")
+    date_recebimento_nf = st.date_input("Data Recebimento NF", value=st.session_state.date_recebimento_nf, format="DD/MM/YYYY")
+    date_lancamento_nf = st.date_input("Data de lançamento NF", value=st.session_state.date_lancamento_nf, format="DD/MM/YYYY")
+    txt_validacao_financeiro = st.text_input("Validação Financeiro", value=st.session_state.txt_validacao_financeiro)
+    txt_mes_planilha_financeiro = st.text_input("Mês Planilha Financeiro", value=st.session_state.txt_mes_planilha_financeiro)
+    txt_observacoes = st.text_area("Observações", value=st.session_state.txt_observacoes)
 
-
-
-    # Botão de salvar
+ # Botão de salvar
     if st.button("Salvar"):
         if txt_numero_nf and txt_fornecedor:
             df = load_data()
@@ -153,7 +242,20 @@ if menu == "Cadastro de NF":
                     "Data": [date_data],
                     "Valor": [txt_valor],
                     "Fornecedor": [txt_fornecedor],
-                    "Descrição": [txt_descricao]
+                    "Descrição": [st.session_state.txt_descricao],
+                    "Projeto": [txt_projeto],
+                    "Tipo": [txt_tipo],
+                    "Produto": [txt_produto],
+                    "Descrição do item": [txt_desc_item],
+                    "Mês contratado": [txt_mes_contratado],
+                    "RC, Contrato ou Direto": [txt_rc_contrato],
+                    "NF": [txt_numero_nf],  # Já é o número da NF
+                    "Data de faturamento NF": [date_faturamento_nf],
+                    "Data Recebimento NF": [date_recebimento_nf],
+                    "Data de lançamento NF": [date_lancamento_nf],
+                    "Validação Financeiro": [txt_validacao_financeiro],
+                    "Mês Planilha Financeiro": [txt_mes_planilha_financeiro],
+                    "Observações": [txt_observacoes]
                 })
                 df = pd.concat([df, novo_registro], ignore_index=True)
                 save_data(df)
@@ -165,10 +267,21 @@ if menu == "Cadastro de NF":
                 st.session_state.txt_valor = 0.0
                 st.session_state.txt_fornecedor = ""
                 st.session_state.txt_descricao = ""
+                st.session_state.txt_projeto = ""
+                st.session_state.txt_tipo = ""
+                st.session_state.txt_produto = ""
+                st.session_state.txt_desc_item = ""
+                st.session_state.txt_mes_contratado = ""
+                st.session_state.txt_rc_contrato = ""
+                st.session_state.date_faturamento_nf = None
+                st.session_state.date_recebimento_nf = None
+                st.session_state.date_lancamento_nf = None
+                st.session_state.txt_validacao_financeiro = ""
+                st.session_state.txt_mes_planilha_financeiro = ""
+                st.session_state.txt_observacoes = ""
 
         else:
             st.error("Preencha os campos obrigatórios: Número NF e Fornecedor.")
-
 # Se o usuário escolher "Consulta de NF"
 elif menu == "Consulta de NF":
     st.header("Consulta de Notas Fiscais")
@@ -178,6 +291,15 @@ elif menu == "Consulta de NF":
 
     # Carregar os dados
     df = load_data()
+
+    # Verificar se a coluna "Data" tem dados válidos
+    if df["Data"].notna().any():
+        data_inicio_default = df["Data"].min()
+        data_fim_default = df["Data"].max()
+    else:
+          # Se não houver dados válidos, definimos datas padrão
+        data_inicio_default = pd.to_datetime("2020-01-01").date()
+        data_fim_default = pd.to_datetime("2020-01-01").date()
 
     # Filtros
     nota_filtrar = st.sidebar.multiselect(
@@ -193,7 +315,6 @@ elif menu == "Consulta de NF":
         default=[]  # Filtro vazio por padrão, ou seja, nada selecionado inicialmente
     )
 
-
     # Se nenhum fornecedor for selecionado, incluir todos os fornecedores
     if not fornecedor_filtrar:
         fornecedor_filtrar = df["Fornecedor"].unique()
@@ -202,10 +323,18 @@ elif menu == "Consulta de NF":
     if not nota_filtrar:
         nota_filtrar = df["Número NF"].unique()
 
+    # Definir data de início e fim com verificação de dados válidos
+    data_inicio = st.sidebar.date_input(
+        "Data Início", 
+        data_inicio_default,  # Usa a data mínima se houver dados ou data padrão
+        format="DD/MM/YYYY"
+    )
 
-
-    data_inicio = st.sidebar.date_input("Data Início", df["Data"].min(), format="DD/MM/YYYY")
-    data_fim = st.sidebar.date_input("Data Fim", df["Data"].max(), format="DD/MM/YYYY")
+    data_fim = st.sidebar.date_input(
+        "Data Fim", 
+        data_fim_default,  # Usa a data máxima se houver dados ou data padrão
+        format="DD/MM/YYYY"
+    )
 
     # Aplicar filtros
     df_filtrado = df[
@@ -215,13 +344,60 @@ elif menu == "Consulta de NF":
         (df["Número NF"].isin(nota_filtrar))
     ]
 
+      # Verifica se o DataFrame filtrado tem dados após a aplicação dos filtros
+    if df_filtrado.empty:
+        st.write("Nenhum registro encontrado com os filtros aplicados.")
+    else:
+        # Exibir os registros filtrados
+        df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime("%d/%m/%Y")  # Formatar data no formato BR
+
+        # Calcular o número total de registros
+        num_linhas = len(df_filtrado)
+
+        # Definir o número de registros por página
+        registros_por_pagina = 30
+
+        # Calcular o número total de páginas
+        num_paginas = num_linhas // registros_por_pagina + (1 if num_linhas % registros_por_pagina != 0 else 0)
+
+        # Se o usuário selecionar uma página, ou a página inicial (1)
+        pagina_atual = st.session_state.get('pagina_atual', 1)  # Armazenar o estado da página em session_state
+
+        # Calcular os índices de início e fim para o DataFrame
+        inicio = (pagina_atual - 1) * registros_por_pagina
+        fim = inicio + registros_por_pagina
+
+        # Exibir a parte da tabela correspondente à página atual
+        df_pagina = df_filtrado.iloc[inicio:fim]
+
+        # Adicionar um botão expansível para selecionar as colunas
+        with st.expander("Escolha as colunas para exibir"):
+            # Criar uma lista de todas as colunas disponíveis
+            colunas_disponiveis = df.columns.tolist()
+            
+            # Criar o multiselect dentro do expander
+            colunas_selecionadas = st.multiselect(
+                "Selecione as colunas para exibir",
+                options=colunas_disponiveis,
+                default=colunas_disponiveis  # Exibe todas por padrão
+            )
 
 
-    # Exibir os registros filtrados
-    df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime("%d/%m/%Y")  # Formatar data no formato BR
-    # Calcular a altura da tabela com base no número de linhas
-    num_linhas = len(df)
-    altura = min(num_linhas * 30, 600)  # Cada linha com altura de 30px, ajustável. Limite em 600px.
 
-    st.dataframe(df_filtrado, height=altura, use_container_width=True)
-    
+        # Exibir a tabela com as colunas selecionadas
+        df_pagina_selecionado = df_pagina[colunas_selecionadas]
+        st.dataframe(df_pagina_selecionado, use_container_width=True)
+
+        # Criação de uma linha para a numeração das páginas
+        colunas = st.columns(num_paginas)  # Criar tantas colunas quanto o número de páginas
+
+        # Adicionar os botões de navegação com numeração das páginas
+        for i in range(num_paginas):
+            with colunas[i]:
+                if st.button(str(i + 1)):  # Botão de página numerada
+                    pagina_atual = i + 1
+                    st.session_state.pagina_atual = pagina_atual
+
+        # Ajuste a visibilidade do layout com base no número de páginas
+        if num_paginas > 1:
+            st.write(f"Página {pagina_atual} de {num_paginas}")
