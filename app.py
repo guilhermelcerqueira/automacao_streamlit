@@ -104,7 +104,7 @@ if menu == "Editar NF":
             # Exibir os campos de cadastro com os dados atuais da NF
             txt_numero_nf = st.text_input("Número da NF", value=nf_data["Número NF"], disabled=True)
             date_data = st.date_input("Data da NF", value=pd.to_datetime(nf_data["Data"]))
-            txt_valor = st.number_input("Valor", min_value=0.0, format="%.2f", value=nf_data["Valor"])
+            txt_valor = st.number_input("Valor", min_value=0, value=nf_data["Valor"])
             txt_fornecedor = st.text_input("Fornecedor", value=nf_data["Fornecedor"])
             txt_descricao = st.text_area("Descrição", value=nf_data["Descrição"])
 
