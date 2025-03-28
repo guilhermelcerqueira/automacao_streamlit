@@ -450,8 +450,10 @@ elif menu == "Consulta de NF":
 
     # Variáveis de controle de página
     # Filtrar as colunas selecionadas no multiselect
-    df_filtrado['Valor'].apply(lambda x: f"R$ {x:,.2f}")
+    
     df_filtrado = df_filtrado[colunas_selecionadas]
+    if "Valor" in colunas_selecionadas:
+        df_filtrado['Valor'] = df_filtrado['Valor'].apply(lambda x: f"R$ {x:,.2f}")
     num_paginas = len(df_filtrado) // 50 + (1 if len(df_filtrado) % 50 > 0 else 0)
 
     # Páginas no session_state para manter o controle de navegação
