@@ -409,7 +409,9 @@ elif menu == "Consulta de NF":
     else:
         # Exibir os registros filtrados
         df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime("%d/%m/%Y")  # Formatar data no formato BR
-
+        df_filtrado["Data de faturamento NF"] = pd.to_datetime(df_filtrado["Data de faturamento NF"]).dt.strftime("%d/%m/%Y")  # Formatar data no formato BR
+        df_filtrado["Data de lançamento NF"] = pd.to_datetime(df_filtrado["Data de lançamento NF"]).dt.strftime("%d/%m/%Y")  # Formatar data no formato BR
+        df_filtrado["Data Recebimento NF"] = pd.to_datetime(df_filtrado["Data Recebimento NF"]).dt.strftime("%d/%m/%Y")  # Formatar data no formato BR
         # Calcular o número total de registros
         num_linhas = len(df_filtrado)
 
@@ -475,6 +477,3 @@ elif menu == "Consulta de NF":
     """, unsafe_allow_html=True)
 
     st.dataframe(df_pagina_selecionada)
-
-
-
