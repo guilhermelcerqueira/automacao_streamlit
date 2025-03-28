@@ -8,7 +8,7 @@ FILE_PATH = "nf_registro.xlsx"
 required_columns = [
     "Número NF", "Data", "Valor", "Fornecedor", "Descrição",
     "Projeto", "Tipo", "Produto", "Descrição do item", "Mês contratado", 
-    "RC, Contrato ou Direto", "NF", "Data de faturamento NF", 
+    "RC, Contrato ou Direto", "Data de faturamento NF", 
     "Data Recebimento NF", "Data de lançamento NF", "Validação Financeiro",
     "Mês Planilha Financeiro", "Observações"
 ]
@@ -284,6 +284,17 @@ if menu == "Cadastro de NF":
             if txt_numero_nf in df["Número NF"].values:
                 st.warning("Essa NF já foi cadastrada!")
             else:
+                campos_obrigatorios_nao_preenchidos = []
+                    # Verificar campos obrigatórios
+                if not txt_valor:
+                    campos_obrigatorios_nao_preenchidos.append("Valor")
+                if not txt_produto:
+                    campos_obrigatorios_nao_preenchidos.append("Produto")
+
+                if campos_obrigatorios_nao_preenchidos:
+                    st.warning(f"Os seguintes campos não foram preenchidos: {', '.join(campos_obrigatorios_nao_preenchidos)}")
+       
+            
                 novo_registro = pd.DataFrame({
                     "Número NF": [txt_numero_nf],
                     "Data": [date_data],
@@ -305,7 +316,7 @@ if menu == "Cadastro de NF":
                 })
                 df = pd.concat([df, novo_registro], ignore_index=True)
                 save_data(df)
-                st.success("Nota Fiscal cadastrada com sucesso!")
+                st.success(f"Nota Fiscal {txt_numero_nf} cadastrada com sucesso!")
 
                 # Resetar os campos de input para os valores padrão
                 st.session_state.txt_numero_nf = 0
@@ -390,6 +401,7 @@ elif menu == "Consulta de NF":
         (df["Número NF"].isin(nota_filtrar))
     ]
 
+
       # Verifica se o DataFrame filtrado tem dados após a aplicação dos filtros
     if df_filtrado.empty:
         st.write("Nenhum registro encontrado com os filtros aplicados.")
@@ -427,7 +439,7 @@ elif menu == "Consulta de NF":
                 options=colunas_disponiveis,
                 default=colunas_disponiveis  # Exibe todas por padrão
             )
-
+                
 
 
     # Função para dividir a tabela em páginas
@@ -437,7 +449,10 @@ elif menu == "Consulta de NF":
         return df.iloc[start_row:end_row]
 
     # Variáveis de controle de página
-    num_paginas = len(df) // 50 + (1 if len(df) % 50 > 0 else 0)
+    # Filtrar as colunas selecionadas no multiselect
+    df_filtrado['Valor'].apply(lambda x: f"R$ {x:,.2f}")
+    df_filtrado = df_filtrado[colunas_selecionadas]
+    num_paginas = len(df_filtrado) // 50 + (1 if len(df_filtrado) % 50 > 0 else 0)
 
     # Páginas no session_state para manter o controle de navegação
     if "pagina_atual" not in st.session_state:
@@ -446,19 +461,8 @@ elif menu == "Consulta de NF":
     pagina_atual = st.session_state.pagina_atual
 
     # Exibir a tabela da página atual (sem criar um novo DataFrame)
-    df_pagina_selecionada = get_page(df, pagina_atual)
-    # Formatar a coluna 'Valor' como R$ 0,00
-    df_pagina_selecionada['Valor'] = df_pagina_selecionada['Valor'].apply(lambda x: f"R$ {x:,.2f}")
-
-    # Formatar as colunas de datas para o formato 'DD/MM/AAAA'
-    data_columns = [
-        "Data", "Data de faturamento NF", "Data Recebimento NF", "Data de lançamento NF"
-    ]
-
-    for col in data_columns:
-        if col in df_pagina_selecionada.columns:
-            df_pagina_selecionada[col] = pd.to_datetime(df_pagina_selecionada[col]).dt.strftime('%d/%m/%Y')
-
+    df_pagina_selecionada = get_page(df_filtrado, pagina_atual)
+    
     st.dataframe(df_pagina_selecionada, height=500, use_container_width=True)
 
     # Ajuste do layout para a navegação
@@ -480,19 +484,3 @@ elif menu == "Consulta de NF":
             if st.button("Próxima"):
                 st.session_state.pagina_atual = pagina_atual + 1
 
-# Exibir o formulário para excluir NF
-elif menu == "Excluir NF":
-    df = load_data()
-    st.header("Excluir Nota Fiscal")
-
-    # Exibir a lista de NFs cadastradas para o usuário escolher
-    nfs = df["Número NF"].tolist()
-    if len(nfs) > 0:
-        nf_to_delete = st.selectbox("Escolha a NF a ser excluída", nfs)
-        if st.button("Excluir"):
-            # Excluir a NF selecionada
-            df = df[df["Número NF"] != nf_to_delete]
-            save_data(df)
-            st.success(f"NF {nf_to_delete} excluída com sucesso!")
-    else:
-        st.warning("Não há NFs cadastradas para excluir.")
