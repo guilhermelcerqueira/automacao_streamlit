@@ -342,6 +342,7 @@ if menu == "Cadastro de NF":
 # Se o usuário escolher "Consulta de NF"
 elif menu == "Consulta de NF":
     st.header("Consulta de Notas Fiscais")
+    
 
     # Barra lateral para filtros
     st.sidebar.header("Filtros")
@@ -465,5 +466,15 @@ elif menu == "Consulta de NF":
     # Exibir a tabela da página atual (sem criar um novo DataFrame)
     df_pagina_selecionada = get_page(df_filtrado, pagina_atual)
     
+    # Contar o número de linhas no DataFrame
+    num_linhas = len(df_pagina_selecionada)
+    # Exibir o resultado com destaque para o número
+    st.markdown(f"""
+        <span style='font-size: 15px; '>Notas fiscais encontradas</span>: 
+        <span style='font-size: 16px; color: green; font-weight: bold;'>{num_linhas}</span>
+    """, unsafe_allow_html=True)
+
     st.dataframe(df_pagina_selecionada)
+
+
 
