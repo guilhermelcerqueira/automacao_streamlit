@@ -443,7 +443,7 @@ elif menu == "Consulta de NF":
 
 
     # Função para dividir a tabela em páginas
-    def get_page(df, page_number, rows_per_page=50):
+    def get_page(df, page_number, rows_per_page=len(df_filtrado)):
         start_row = (page_number - 1) * rows_per_page
         end_row = start_row + rows_per_page
         return df.iloc[start_row:end_row]
@@ -465,24 +465,5 @@ elif menu == "Consulta de NF":
     # Exibir a tabela da página atual (sem criar um novo DataFrame)
     df_pagina_selecionada = get_page(df_filtrado, pagina_atual)
     
-    st.dataframe(df_pagina_selecionada, height=500, use_container_width=True)
-
-    # Ajuste do layout para a navegação
-    col1, col2, col3 = st.columns([1, 3, 1])
-
-    with col1:
-        # Botão de "Anterior" com controle de navegação
-        if pagina_atual > 1:
-            if st.button("Anterior"):
-                st.session_state.pagina_atual = pagina_atual - 1
-
-    with col2:
-        # Exibição de texto com página atual
-        st.write(f"Página {pagina_atual} de {num_paginas}")
-
-    with col3:
-        # Botão de "Próxima" com controle de navegação
-        if pagina_atual < num_paginas:
-            if st.button("Próxima"):
-                st.session_state.pagina_atual = pagina_atual + 1
+    st.dataframe(df_pagina_selecionada)
 
