@@ -84,59 +84,93 @@ O cadastro só permite selecionar valores existentes no dicionário, evitando di
 
 <img width="809" height="512" alt="image" src="https://github.com/user-attachments/assets/c86faa7f-2486-41b7-b9ef-8b17e25cc3b4" />
 
-##📝 Cadastro de Nota Fiscal
+📝 Cadastro de Nota Fiscal
 
-<img width="963" height="693" alt="image" src="https://github.com/user-attachments/assets/d4c46b5d-5f42-4095-95ec-ec634b2c67ec" />
+<img width="938" height="899" alt="image" src="https://github.com/user-attachments/assets/e2435be5-c65d-4aca-aeff-d61baa469f23" />
 
-## ✏️ Edição de Nota Fiscal
 
-<img width="943" height="699" alt="image" src="https://github.com/user-attachments/assets/45bbf10d-6312-4c7c-92fd-a1a8426f44de" />
+✏️ Edição de Nota Fiscal
 
-## 🔍 Consulta com filtros
+<img width="939" height="791" alt="image" src="https://github.com/user-attachments/assets/90f61d05-fe94-4444-ad77-ac43f9fcebe2" />
 
-<img width="1770" height="749" alt="image" src="https://github.com/user-attachments/assets/52e440c7-209d-475a-9dbe-54b51f823997" />
 
-## 🔄 Futuras Evoluções (Roadmap)
+🔍 Consulta com filtros
 
-✅ Migrar o backend de Excel para Google Sheets (multiusuário online)
-✅ Versão com banco SQLite + autenticação real e níveis de permissão
-✅ Página "Dashboard" com análises gráficas:
+<img width="809" height="512" alt="image" src="https://github.com/user-attachments/assets/52e440c7-209d-475a-9dbe-54b51f823997" />
 
-total por período
+## 🔮 Futuras Evoluções (Roadmap)
 
-ranking de fornecedores
+| Status | Funcionalidade |
+|--------|----------------|
+| ✅ | Migrar backend de Excel para Google Sheets (multiusuário online) |
+| ✅ | Versão com banco SQLite + autenticação real e níveis de permissão |
+| ✅ | Página **Dashboard** com análises gráficas (total por período, ranking de fornecedores, curva de despesas etc.) |
+| ✅ | Exportação de relatórios (PDF, CSV) direto pelo app |
+| ✅ | Upload de anexos da NF (PDF, XML) |
+| ✅ | Logs de auditoria: *"quem editou o quê?"* |
+| ⏳ | Alternativa de backend: Google Sheets como banco de dados |
+| ⏳ | Integração com Power BI / Looker Studio |
+| ⏳ | Envio automático de e-mail após nova NF cadastrada |
+| ⏳ | Notificações por Telegram / Teams / Slack |
+| ⏳ | Detector de duplicidade de NF com IA |
+| 🔄 | Migração de controle de versão por arquivo → histórico de edição automatizado |
+| 🧪 | Possibilidade de API REST para integrar ERPs |
+| 💡 | Página extra de análises financeiras dentro do app (em planejamento) |
 
-curva de despesas ao longo do tempo
-✅ Exportação de relatórios (PDF, CSV) direto pelo app
-✅ Upload de anexos da NF (PDF, XML)
-✅ Logs de auditoria: "quem editou o quê?"
+---
 
-☁️ Possibilidade futura: Google Sheets como banco de dados
+### 📌 Sobre a migração para Google Sheets
 
 O sistema pode ser adaptado para trocar:
 
-pandas.read_excel()  →  Google Sheets API (gspread)
-pandas.to_excel()    →  update_sheet()
+```
+Leitura atual:     pandas.read_excel()
+Gravação atual:    pandas.to_excel()
+
+Alternativa futura:
+✅ Leitura: gspread / Google Sheets API → sheet.get_all_records()
+✅ Gravação: sheet.update() ou atualização por range dinâmico
+```
 
 Isso permite:
 
-acesso simultâneo por múltiplos usuários
+- ✅ Edição simultânea por múltiplos usuários
+- ✅ Controle de histórico e versionamento nativo do Google
+- ✅ Evitar upload/download manual de arquivos
+- ✅ Uso real em equipe — não apenas local
 
-planilha com histórico de versões
+---
 
-edição sem depender de download/upload de arquivos
+### 🧠 Recursos Planejados para Dashboard
 
-📚 Tecnologias Utilizadas
-Tecnologia	Uso
-✅ Python	Backend
-✅ Streamlit	Interface Web
-✅ Pandas	Manipulação de dados
-✅ OpenPyXL	Leitura e gravação de Excel
-✅ Git + GitHub	Versionamento
-✅ (Futuro) Google Sheets API	Alternativa ao Excel
-✅ (Futuro) SQLite	Banco de dados local
+✅ Total gasto por período  
+✅ Top 10 fornecedores por volume  
+✅ Evolução temporal de gastos (linha / área)  
+✅ Indicador de contratos vencendo  
+✅ Pie chart: despesas por categoria / projeto  
 
-👔 Autor
+*(será adicionado em página separada do menu — “Dashboard”)*
 
-Desenvolvido por Guilherme Cerqueira
-📌 Projeto de portfólio — automação de processos de compras / financeiro
+---
+
+### 🛠️ Tecnologias Utilizadas
+
+| Categoria | Ferramenta |
+|-----------|------------|
+| Backend | Python |
+| Interface Web | Streamlit |
+| Manipulação de Dados | Pandas |
+| Arquivo Local | Excel (.xlsx) via OpenPyXL |
+| Versionamento | Git + GitHub |
+| Deploy | Streamlit Cloud |
+| Futuro Backend | Google Sheets API / SQLite |
+
+---
+
+### 👤 Autor
+
+Desenvolvido por **Guilherme Cerqueira**  
+📌 Projeto de portfólio — automação de processos financeiros e de compras  
+🔗 App online: https://automacaonfs.streamlit.app/
+
+
