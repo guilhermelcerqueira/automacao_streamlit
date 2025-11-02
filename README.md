@@ -77,25 +77,11 @@ O cadastro só permite selecionar valores existentes no dicionário, evitando di
 
 ---
 
-## 🖼️ Capturas de Tela
- 
+## 🖥️ Demonstração Rápida
 
-🔐 Tela de Login
-
-<img width="809" height="512" alt="image" src="https://github.com/user-attachments/assets/c86faa7f-2486-41b7-b9ef-8b17e25cc3b4" />
-
-📝 Cadastro de Nota Fiscal
-
-<img width="938" height="899" alt="image" src="https://github.com/user-attachments/assets/e2435be5-c65d-4aca-aeff-d61baa469f23" />
-
-
-✏️ Edição de Nota Fiscal
-
-<img width="939" height="679" alt="image" src="https://github.com/user-attachments/assets/1d4ae19c-520a-41e6-a485-29316ac114e7" />
-
-🔍 Consulta com filtros
-
-<img width="809" height="512" alt="image" src="https://github.com/user-attachments/assets/52e440c7-209d-475a-9dbe-54b51f823997" />
+<p align="center">
+  <img src="assets/demo.gif" width="720">
+</p>![ezgif com-resize](https://github.com/user-attachments/assets/13e16463-635d-4536-acac-3aa3cda0baf2)
 
 ## 🔮 Futuras Evoluções (Roadmap)
 
