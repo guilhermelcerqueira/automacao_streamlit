@@ -91,8 +91,7 @@ O cadastro só permite selecionar valores existentes no dicionário, evitando di
 
 ✏️ Edição de Nota Fiscal
 
-<img width="939" height="791" alt="image" src="https://github.com/user-attachments/assets/90f61d05-fe94-4444-ad77-ac43f9fcebe2" />
-
+<img width="939" height="679" alt="image" src="https://github.com/user-attachments/assets/1d4ae19c-520a-41e6-a485-29316ac114e7" />
 
 🔍 Consulta com filtros
 
