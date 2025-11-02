@@ -42,24 +42,25 @@ O login é validado via sessão (`streamlit.session_state`) e exibe o usuário l
 
 ---
 
+```md
 ## 🗂️ Estrutura do Projeto
-automacao_streamlit/
-│ app.py
-│ requirements.txt
-│ README.md
-│
-├── code/
-│ ├── auth.py → Tela de login e sessão
-│ ├── cadastro.py → Cadastro de NF
-│ ├── consulta.py → Tela de filtros e consulta
-│ ├── editar.py → Edição e exclusão de NF
-│ ├── database.py → Leitura e escrita no Excel
-│
-└── data/
-├── registro.xlsx → Base principal (CADASTRO DE NF)
-├── dicionario.xlsx → Dicionário de validação (Projeto, Tipo, Produto
 
-
+📁 automacao_streamlit/
+├── app.py
+├── requirements.txt
+├── README.md
+│
+├── 📁 code/
+│   ├── auth.py          → Tela de login e sessão
+│   ├── cadastro.py      → Cadastro de NF
+│   ├── consulta.py      → Tela de filtros e consulta
+│   ├── editar.py        → Edição e exclusão de NF
+│   ├── database.py      → Leitura e escrita no Excel
+│
+└── 📁 data/
+    ├── registro.xlsx     → Base principal (Cadastro de NF)
+    ├── dicionario.xlsx   → Dicionário de validação (Projeto, Tipo, Produto)
+```
 
 ---
 
@@ -78,24 +79,24 @@ O cadastro só permite selecionar valores existentes no dicionário, evitando di
 
 ## 🖼️ Capturas de Tela
  
-> Exemplo de formato:  
+
 🔐 Tela de Login
 
 <img width="809" height="512" alt="image" src="https://github.com/user-attachments/assets/c86faa7f-2486-41b7-b9ef-8b17e25cc3b4" />
 
-📝 Cadastro de Nota Fiscal
+##📝 Cadastro de Nota Fiscal
 
 <img width="1704" height="932" alt="image" src="https://github.com/user-attachments/assets/60fa7059-4e5d-4ec6-9641-09544958a742" />
 
-✏️ Edição de Nota Fiscal
+##✏️ Edição de Nota Fiscal
 
 <img width="1816" height="813" alt="image" src="https://github.com/user-attachments/assets/c725d4c2-8638-4042-b602-2f1260f67569" />
 
-🔍 Consulta com filtros
+##🔍 Consulta com filtros
 
 <img width="1770" height="749" alt="image" src="https://github.com/user-attachments/assets/52e440c7-209d-475a-9dbe-54b51f823997" />
 
-🔄 Futuras Evoluções (Roadmap)
+##🔄 Futuras Evoluções (Roadmap)
 
 ✅ Migrar o backend de Excel para Google Sheets (multiusuário online)
 ✅ Versão com banco SQLite + autenticação real e níveis de permissão
