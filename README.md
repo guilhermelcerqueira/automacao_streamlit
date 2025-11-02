@@ -46,9 +46,8 @@ O login é validado via sessão (`streamlit.session_state`) e exibe o usuário l
 
 ---
 
-```md
 ## 🗂️ Estrutura do Projeto
-
+```md
 📁 automacao_streamlit/
 ├── app.py
 ├── requirements.txt
@@ -86,19 +85,19 @@ O cadastro permite selecionar apenas valores já existentes no dicionário, evit
 
 | Status | Funcionalidade |
 |--------|----------------|
-| ✅ | Migrar backend de Excel para Google Sheets (multiusuário online) |
-| ✅ | Versão com banco SQLite + autenticação real e níveis de permissão |
-| ✅ | Página **Dashboard** com análises gráficas (total por período, ranking de fornecedores, curva de despesas etc.) |
-| ✅ | Exportação de relatórios (PDF, CSV) direto pelo app |
-| ✅ | Upload de anexos da NF (PDF, XML) |
-| ✅ | Logs de auditoria: *"quem editou o quê?"* |
+| ⏳ | Migrar backend de Excel para Google Sheets (multiusuário online) |
+| ⏳ | Versão com banco SQLite + autenticação real e níveis de permissão |
+| ⏳ | Página **Dashboard** com análises gráficas (total por período, ranking de fornecedores, curva de despesas etc.) |
+| ⏳ | Exportação de relatórios (PDF, CSV) direto pelo app |
+| ⏳ | Upload de anexos da NF (PDF, XML) |
+| ⏳ | Logs de auditoria: *"quem editou o quê?"* |
 | ⏳ | Alternativa de backend: Google Sheets como banco de dados |
 | ⏳ | Integração com Power BI / Looker Studio |
 | ⏳ | Envio automático de e-mail após nova NF cadastrada |
 | ⏳ | Notificações por Telegram / Teams / Slack |
 | ⏳ | Detector de duplicidade de NF com IA |
-| 🔄 | Migração de controle de versão por arquivo → histórico de edição automatizado |
-| 🧪 | Possibilidade de API REST para integrar ERPs |
+| ⏳ | Migração de controle de versão por arquivo → histórico de edição automatizado |
+| ⏳ | Possibilidade de API REST para integrar ERPs |
 | 💡 | Página extra de análises financeiras dentro do app (em planejamento) |
 
 ---
