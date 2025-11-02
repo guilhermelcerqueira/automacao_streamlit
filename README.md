@@ -80,8 +80,8 @@ O cadastro só permite selecionar valores existentes no dicionário, evitando di
 ## 🖥️ Demonstração Rápida
 
 <p align="center">
-  <img src="assets/demo.gif" width="720">
-</p>![ezgif com-resize](https://github.com/user-attachments/assets/13e16463-635d-4536-acac-3aa3cda0baf2)
+  <img src="https://github.com/user-attachments/assets/13e16463-635d-4536-acac-3aa3cda0baf2" width="720">
+</p>
 
 ## 🔮 Futuras Evoluções (Roadmap)
 
