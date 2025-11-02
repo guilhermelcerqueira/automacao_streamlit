@@ -1,4 +1,3 @@
------ INÍCIO README -----
 # 📄 Sistema de Gestão de Notas Fiscais (Streamlit)
 
 Aplicação desenvolvida em **Python + Streamlit** para gestão de Notas Fiscais, substituindo planilhas manuais por um sistema web simples, padronizado e seguro.
@@ -78,8 +77,7 @@ O cadastro só permite selecionar valores existentes no dicionário, evitando di
 ---
 
 ## 🖼️ Capturas de Tela
-
-> *(Imagens devem ser adicionadas manualmente pelo autor)*  
+ 
 > Exemplo de formato:  
 🔐 Tela de Login
 
@@ -139,5 +137,5 @@ Tecnologia	Uso
 
 👔 Autor
 
-Desenvolvido por Guilherme Lima
+Desenvolvido por Guilherme Cerqueira
 📌 Projeto de portfólio — automação de processos de compras / financeiro
