@@ -35,21 +35,21 @@ def editar_nf():
             date_data = st.date_input("Data da NF", value=pd.to_datetime(nf_data["Data"]))
             txt_valor = st.number_input("Valor", min_value=0, value=nf_data["Valor"])
             txt_fornecedor = st.text_input("Fornecedor", value=nf_data["Fornecedor"])
-            txt_descricao = st.text_area("Descrição", value[nf_data["Descrição"]])
+            txt_descricao = st.text_area("Descrição", value=nf_data["Descrição"])
 
             # Adicionando os novos campos de entrada com os dados atuais da NF
             txt_projeto = st.text_input("Projeto", value=nf_data["Projeto"])
             txt_tipo = st.text_input("Tipo", value=nf_data["Tipo"])
-            txt_produto = st.text_input("Produto", value[nf_data["Produto"]])
-            txt_desc_item = st.text_input("Descrição do item", value[nf_data["Descrição do item"]])
+            txt_produto = st.text_input("Produto", value=nf_data["Produto"])
+            txt_desc_item = st.text_input("Descrição do item", value=nf_data["Descrição do item"])
             txt_mes_contratado = st.text_input("Mês contratado", value=nf_data["Mês contratado"])
-            txt_rc_contrato = st.text_input("Modelo de Contrato", value[nf_data["Modelo de Contrato"]])
+            txt_rc_contrato = st.text_input("Modelo de Contrato", value=nf_data["Modelo de Contrato"])
             date_faturamento_nf = st.date_input("Data de faturamento NF", value=pd.to_datetime(nf_data["Data de faturamento NF"]))
             date_recebimento_nf = st.date_input("Data Recebimento NF", value=pd.to_datetime(nf_data["Data Recebimento NF"]))
             date_lancamento_nf = st.date_input("Data de lançamento NF", value=pd.to_datetime(nf_data["Data de lançamento NF"]))
-            txt_validacao_financeiro = st.text_input("Validação Financeiro", value[nf_data["Validação Financeiro"]])
-            txt_mes_planilha_financeiro = st.text_input("Mês Planilha Financeiro", value[nf_data["Mês Planilha Financeiro"]])
-            txt_observacoes = st.text_area("Observações", value[nf_data["Observações"]])
+            txt_validacao_financeiro = st.text_input("Validação Financeiro", value=nf_data["Validação Financeiro"])
+            txt_mes_planilha_financeiro = st.text_input("Mês Planilha Financeiro", value=nf_data["Mês Planilha Financeiro"])
+            txt_observacoes = st.text_area("Observações", value=nf_data["Observações"])
 
             # Botão de salvar
             if st.button("Salvar Alterações"):
