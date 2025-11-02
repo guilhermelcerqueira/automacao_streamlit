@@ -9,6 +9,7 @@ users = {
 
 def login():
     st.title("🔐 Login")
+    st.info("Login de demonstração:\n\n**Usuário:** `admin`\n**Senha:** `senha123`")
     username = st.text_input("Usuário")
     password = st.text_input("Senha", type="password")
 
@@ -50,3 +51,4 @@ def show_logged_user_sidebar():
         """,
         unsafe_allow_html=True
     )
+
