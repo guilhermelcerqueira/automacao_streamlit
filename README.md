@@ -86,17 +86,17 @@ O cadastro só permite selecionar valores existentes no dicionário, evitando di
 
 ##📝 Cadastro de Nota Fiscal
 
-<img width="1704" height="932" alt="image" src="https://github.com/user-attachments/assets/60fa7059-4e5d-4ec6-9641-09544958a742" />
+<img width="963" height="693" alt="image" src="https://github.com/user-attachments/assets/d4c46b5d-5f42-4095-95ec-ec634b2c67ec" />
 
-##✏️ Edição de Nota Fiscal
+## ✏️ Edição de Nota Fiscal
 
-<img width="1816" height="813" alt="image" src="https://github.com/user-attachments/assets/c725d4c2-8638-4042-b602-2f1260f67569" />
+<img width="943" height="699" alt="image" src="https://github.com/user-attachments/assets/45bbf10d-6312-4c7c-92fd-a1a8426f44de" />
 
-##🔍 Consulta com filtros
+## 🔍 Consulta com filtros
 
 <img width="1770" height="749" alt="image" src="https://github.com/user-attachments/assets/52e440c7-209d-475a-9dbe-54b51f823997" />
 
-##🔄 Futuras Evoluções (Roadmap)
+## 🔄 Futuras Evoluções (Roadmap)
 
 ✅ Migrar o backend de Excel para Google Sheets (multiusuário online)
 ✅ Versão com banco SQLite + autenticação real e níveis de permissão
