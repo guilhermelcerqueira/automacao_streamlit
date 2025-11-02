@@ -14,6 +14,10 @@ Este sistema serve como **projeto de portfólio**, demonstrando boas práticas d
 🔗 **Versão online do app:**  
 https://automacaonfs.streamlit.app/
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/13e16463-635d-4536-acac-3aa3cda0baf2" width="720">
+</p>
+
 ---
 
 ## ✨ Funcionalidades
@@ -73,15 +77,10 @@ Para evitar poluição no banco (ex: `Fornecedor X`, `Fornecedor-X`, `FORNECEDOR
 - Produto  
 - Descrição  
 
-O cadastro só permite selecionar valores existentes no dicionário, evitando divergências e erros de digitação.
+O cadastro permite selecionar apenas valores já existentes no dicionário, evitando divergências e erros de digitação. Ao cadastrar uma nova nota, o sistema exibirá os fornecedores já cadastrados. Caso seja necessário incluir um novo fornecedor, também haverá a opção de adicioná-lo.
 
 ---
 
-## 🖥️ Demonstração Rápida
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/13e16463-635d-4536-acac-3aa3cda0baf2" width="720">
-</p>
 
 ## 🔮 Futuras Evoluções (Roadmap)
 
