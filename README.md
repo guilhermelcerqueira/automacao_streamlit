@@ -19,10 +19,9 @@ https://automacaonfs.streamlit.app/
 </p>
 
 
-![ezgif com-animated-gif-maker](https://github.com/user-attachments/assets/45392a2d-0a21-433f-8f09-a7600db6d395)
 
+---![ezgif com-animated-gif-maker](https://github.com/user-attachments/assets/fb580adc-2746-440a-a891-a66ce7a07b8a)
 
----
 
 ## ✨ Funcionalidades
 
