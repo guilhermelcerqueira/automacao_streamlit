@@ -18,6 +18,10 @@ https://automacaonfs.streamlit.app/
   <img src="https://github.com/user-attachments/assets/13e16463-635d-4536-acac-3aa3cda0baf2" width="720">
 </p>
 
+
+![ezgif com-animated-gif-maker](https://github.com/user-attachments/assets/45392a2d-0a21-433f-8f09-a7600db6d395)
+
+
 ---
 
 ## ✨ Funcionalidades
